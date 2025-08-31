@@ -4,7 +4,6 @@ BabyNutriPlan is a web application designed to help mothers purchase nutritious 
 
 ## Live Demo
 
-[https://68b44872d2318491ece53874--effulgent-medovik-07a8a8.netlify.app/](https://app.netlify.com/start/deploy?repository=https://github.com/your-username/babynutripla
 You can access the live application here: [https://68b44872d2318491ece53874--effulgent-medovik-07a8a8.netlify.app/]
 
 ## Features
