@@ -1,12 +1,11 @@
-# BabyNutriPlan - SDG 2: Zero Hunger Project
+no# BabyNutriPlan - SDG 2: Zero Hunger Project
 
 BabyNutriPlan is a web application designed to help mothers purchase nutritious recipes for their babies while supporting the United Nations Sustainable Development Goal 2: Zero Hunger.
 
 ## Live Demo
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/your-username/babynutriplan)
-
-You can access the live application here: [Insert Your Deployment Link Here]
+[https://68b44872d2318491ece53874--effulgent-medovik-07a8a8.netlify.app/](https://app.netlify.com/start/deploy?repository=https://github.com/your-username/babynutripla
+You can access the live application here: [https://68b44872d2318491ece53874--effulgent-medovik-07a8a8.netlify.app/]
 
 ## Features
 
