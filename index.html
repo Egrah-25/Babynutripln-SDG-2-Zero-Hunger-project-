@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyNutriPlan - Nutritious Recipes for Babies</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍼</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f6f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background-color: white;
+            color: #2E7D32;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #e8f5e9;
+        }
+        
+        .btn-primary {
+            background-color: #FF6B6B;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #ff5252;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .intro {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .intro h2 {
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+        
+        .sdg-info {
+            background-color: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid #4CAF50;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .recipe-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .recipe-image {
+            height: 200px;
+            background-color: #c8e6c9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2E7D32;
+            font-weight: bold;
+        }
+        
+        .recipe-content {
+            padding: 1.5rem;
+        }
+        
+        .recipe-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2E7D32;
+        }
+        
+        .recipe-age {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-description {
+            margin-bottom: 1.5rem;
+            height: 80px;
+            overflow: hidden;
+        }
+        
+        .recipe-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-summary {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            bottom: 0;
+            margin-top: 2rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #2E7D32;
+            color: white;
+            margin-top: 3rem;
+        }
+        
+        /* Auth Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-footer a {
+            color: #2E7D32;
+            cursor: pointer;
+        }
+        
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .payment-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .payment-options {
+            display: flex;
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+        
+        .payment-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .payment-option.selected {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        
+        .demo-notice {
+            background-color: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .user-info {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .deploy-banner {
+            background: linear-gradient(135deg, #6A11CB 0%, #2575FC 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">🍼</div>
+            <div>
+                <h1>BabyNutriPlan</h1>
+                <p class="tagline">Nutritious recipes for your baby's healthy development</p>
+            </div>
+        </div>
+        <div class="auth-buttons">
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userName"></span>
+            </div>
+            <button id="loginBtn" class="btn">Login</button>
+            <button id="signupBtn" class="btn btn-primary">Sign Up</button>
+            <button id="logoutBtn" class="btn" style="display: none;">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="deploy-banner">
+            <h2>🚀 Ready for Deployment!</h2>
+            <p>This project is configured for easy deployment on Netlify, Vercel, or GitHub Pages</p>
+        </div>
+        
+        <div class="demo-notice">
+            <h3>Demo Mode Active</h3>
+            <p>This is a fully functional demo. Authentication and purchases are simulated using browser storage.</p>
+            <p>In a production environment, this would connect to Firebase and IntaSend for payments.</p>
+        </div>
+        
+        <div class="intro">
+            <h2>Supporting SDG 2: Zero Hunger</h2>
+            <p>We believe every child deserves access to nutritious food. For every recipe purchased, we donate a meal to a child in need.</p>
+        </div>
+        
+        <div class="sdg-info">
+            <h3>About Sustainable Development Goal 2: Zero Hunger</h3>
+            <p>SDG 2 aims to end hunger, achieve food security and improved nutrition, and promote sustainable agriculture by 2030. Our project supports this goal by making nutritious baby food accessible and affordable while helping fight malnutrition in vulnerable communities.</p>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">4-6 months</button>
+            <button class="filter-btn">7-9 months</button>
+            <button class="filter-btn">10-12 months</button>
+            <button class="filter-btn">12+ months</button>
+            <button class="filter-btn">Vegetarian</button>
+            <button class="filter-btn">Allergy-Friendly</button>
+        </div>
+        
+        <div class="recipes-grid">
+            <!-- Recipe 1 -->
+            <div class="recipe-card">
+                <div class="recipe-image">Sweet Potato Puree</div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Sweet Potato Puree</h3>
+                    <p class="recipe-age">4-6 months</p>
+                    <p class="recipe-description">Easy-to-digest first food rich in vitamin A and antioxidants. Gentle on baby's stomach.</p>
+                    <p class="recipe-price">$2.99</p>
+                    <a href="#" class="btn add-to-cart">Add to Cart</a>
+                </div>
+            </div>
+            
+            <!-- Recipe 2 -->
+            <div class="recipe-card">
+                <div class="recipe-image">Avocado Banana Mash</div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Avocado Banana Mash</h3>
+                    <p class="recipe-age">6-8 months</p>
+                    <p class="recipe-description">Creamy combination packed with healthy fats, potassium, and essential nutrients.</p>
+                    <p class="recipe-price">$3.49</p>
+                    <a href="#" class="btn add-to-cart">Add to Cart</a>
+                </div>
+            </div>
+            
+            <!-- Recipe 3 -->
+            <div class="recipe-card">
+                <div class="recipe-image">Chicken & Vegetable Stew</div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Chicken & Vegetable Stew</h3>
+                    <p class="recipe-age">8-10 months</p>
+                    <p class="recipe-description">Protein-rich meal with soft vegetables, perfect for developing chewing skills.</p>
+                    <p class="recipe-price">$4.25</p>
+                    <a href="#" class="btn add-to-cart">Add to Cart</a>
+                </div>
+            </div>
+            
+            <!-- Recipe 4 -->
+            <div class="recipe-card">
+                <div class="recipe-image">Quinoa Fruit Porridge</div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">Quinoa Fruit Porridge</h3>
+                    <p class="recipe-age">10-12 months</p>
+                    <p class="recipe-description">Complete protein source with natural sweetness from seasonal fruits.</p>
+                    <p class="recipe-price">$3.99</p>
+                    <a href="#" class="btn add-to-cart">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-summary">
+            <h3>Your Cart</h3>
+            <p>Currently <span id="cart-count">0</span> items</p>
+            <p>Total: $<span id="cart-total">0.00</span></p>
+            <button id="checkoutBtn" class="btn" style="width: 100%; margin-top: 1rem;">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to Your Account</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" placeholder="Your email">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Your password">
+            </div>
+            <button id="doLogin" class="btn btn-primary" style="width: 100%;">Login</button>
+            <div class="form-footer">
+                <p>Don't have an account? <a id="switchToSignup">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create an Account</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="Your email">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="Create a password">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input type="password" id="signup-confirm" placeholder="Confirm your password">
+            </div>
+            <button id="doSignup" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            <div class="form-footer">
+                <p>Already have an account? <a id="switchToLogin">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-content">
+            <div class="modal-header">
+                <h2>Complete Your Purchase</h2>
+                <span class="close">&times;</span>
+            </div>
+            <p>Total amount: $<span id="payment-total">0.00</span></p>
+            <div class="payment-options">
+                <div class="payment-option selected" data-method="mpesa">
+                    <h3>M-Pesa</h3>
+                    <p>Pay via M-Pesa</p>
+                </div>
+                <div class="payment-option" data-method="card">
+                    <h3>Card</h3>
+                    <p>Credit/Debit Card</p>
+                </div>
+            </div>
+            <div id="mpesa-payment">
+                <div class="form-group">
+                    <label for="phone">M-Pesa Phone Number</label>
+                    <input type="tel" id="phone" placeholder="e.g. 07XX XXX XXX">
+                </div>
+            </div>
+            <div id="card-payment" style="display: none;">
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="form-group">
+                    <label for="card-expiry">Expiry Date</label>
+                    <input type="text" id="card-expiry" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                    <label for="card-cvv">CVV</label>
+                    <input type="text" id="card-cvv" placeholder="123">
+                </div>
+            </div>
+            <button id="processPayment" class="btn btn-primary" style="width: 100%;">Pay Now</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>BabyNutriPlan - Supporting SDG 2: Zero Hunger</p>
+        <p>For every purchase, we provide a nutritious meal to a baby in need</p>
+        <p>© 2023 BabyNutriPlan | Hackathon Project</p>
+    </footer>
+
+    <script>
+        // Mock Firebase functionality using localStorage
+        const MockFirebase = {
+            auth: {
+                currentUser: null,
+                
+                onAuthStateChanged(callback) {
+                    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                    this.currentUser = user;
+                    callback(user);
+                    return () => {}; // Return unsubscribe function
+                },
+                
+                signInWithEmailAndPassword(email, password) {
+                    return new Promise((resolve, reject) => {
+                        const users = JSON.parse(localStorage.getItem('users') || '[]');
+                        const user = users.find(u => u.email === email && u.password === password);
+                        
+                        if (user) {
+                            this.currentUser = { uid: user.id, email: user.email, displayName: user.name };
+                            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                            resolve({ user: this.currentUser });
+                        } else {
+                            reject(new Error('Invalid email or password'));
+                        }
+                    });
+                },
+                
+                createUserWithEmailAndPassword(email, password) {
+                    return new Promise((resolve, reject) => {
+                        const users = JSON.parse(localStorage.getItem('users') || '[]');
+                        
+                        if (users.some(u => u.email === email)) {
+                            reject(ne
